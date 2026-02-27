@@ -81,8 +81,21 @@ class PasswordValidatorTest {
     void isValid_shouldReturnTrue_WhenPasswordValidIs(String txt, boolean check){
         assertEquals(PasswordValidator.isValid(txt),check);}
 
-
-
+    @ParameterizedTest
+    @CsvSource ({"GSd21$@1gg_?s,0",
+            "aDDm11n$,0",
+            ", 15",            // null
+            "Ui23_0a, 1",    //7 characters
+            "Character$, 2", // Hasnt digital
+            "characte$1,4", // No Upper letter
+            "CHARACTER$1,4",// No lower letter
+            "Character1,8",// No special character
+            "Password1!,16",// Common Password
+            "AAAA1111,12", // No lower letter and no special letter
+            "Admin#,3"})  // 6 characters and no digital
+    void WhyNotValid_shouldReturnCountOfReason(String txt, int check) {
+        assertEquals(PasswordValidator.WhyNotValid(txt), check);
+    }
 }
 
 
