@@ -11,8 +11,8 @@ class PasswordValidatorTest {
     @CsvSource ({"qwertyui,8,true",
             "qwertyui,4,true",
             "GSd21g666gs,8,true",
-            "aDDm11n66,8,true",
-            "qwertyui,12,false"})
+            "aDDm1ee,8,false", //7 characters
+            "qwertyuio,8,true"}) // 9 characters
     void hasMinLength_shouldReturnTrue_WhenPasswordMinimumSymbolHas(String txt, int numb, boolean check){
         assertEquals(PasswordValidator.hasMinLength(txt,numb),check);
     }
@@ -71,9 +71,13 @@ class PasswordValidatorTest {
     @ParameterizedTest
     @CsvSource ({"GSd21$@1gg_?s,true",
             "aDDm11n$,true",
-            "GSd21$@1gg_?s,true",
-            "aDDm11n$,true",
-            "Password,false"})
+            ", false",            // null
+            "Ui23_0a, false",    //7 characters
+            "Character$, false", // Hasnt digital
+            "characte$1,false", // No Upper letter
+            "CHARACTER$1,false",// No lower letter
+            "Character1,false",// No special character
+            "Password,false",})  // Common Password
     void isValid_shouldReturnTrue_WhenPasswordValidIs(String txt, boolean check){
         assertEquals(PasswordValidator.isValid(txt),check);}
 
